@@ -1,0 +1,322 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Cinema.Pages.MainPage">
+  <DockPanel Margin="8">
+    <StackPanel DockPanel.Dock="Top"
+                Orientation="Horizontal"
+                Margin="4,0,4,8"
+                Spacing="12">
+      <TextBlock Text="Панель управления кинотеатром"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center" />
+
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Right"
+                  Margin="32,0,0,0"
+                  Spacing="6">
+        <TextBlock Classes="muted"
+                   Text="Пользователь:"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="CurrentUserTextBlock"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center" />
+        <TextBlock Classes="muted"
+                   Text="(роль:"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="CurrentRoleTextBlock"
+                   VerticalAlignment="Center" />
+        <TextBlock Classes="muted"
+                   Text=")"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+
+      <Button Content="Выход"
+              HorizontalAlignment="Right"
+              Click="OnLogoutClick" />
+    </StackPanel>
+
+    <TabControl Margin="0,0,0,4">
+      <!-- Фильмы -->
+      <TabItem Header="Фильмы">
+        <DockPanel Margin="4">
+          <StackPanel DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock Classes="muted"
+                       Text="Поиск по названию:"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="MovieSearchTextBox"
+                     Width="220"
+                     TextChanged="OnMovieSearchChanged"
+                     Watermark="Введите часть названия" />
+
+            <TextBlock Classes="muted"
+                       Text="Мин. длительность"
+                       Margin="16,0,0,0"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="MinDurationTextBox"
+                     Width="70"
+                     TextChanged="OnMovieFilterChanged"
+                     Watermark="мин" />
+
+            <TextBlock Classes="muted"
+                       Text="Макс. длительность"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="MaxDurationTextBox"
+                     Width="70"
+                     TextChanged="OnMovieFilterChanged"
+                     Watermark="мин" />
+
+            <Button Content="Сбросить фильтры"
+                    Margin="16,0,0,0"
+                    Click="OnResetMovieFiltersClick" />
+          </StackPanel>
+
+          <StackPanel x:Name="MovieButtonsPanel"
+                      DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="AddMovieButton"
+                    Content="Добавить фильм"
+                    Click="OnAddMovieClick" />
+            <Button x:Name="SaveMoviesButton"
+                    Content="Сохранить изменения"
+                    Click="OnSaveMoviesClick" />
+            <Button x:Name="DeleteMovieButton"
+                    Content="Удалить выбранный"
+                    Click="OnDeleteMovieClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="MoviesDataGrid"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="False"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="60" />
+              <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*" />
+              <DataGridTextColumn Header="Длительность (мин)" Binding="{Binding Duration}" Width="140" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Залы -->
+      <TabItem Header="Залы">
+        <DockPanel Margin="4">
+          <StackPanel DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock Classes="muted"
+                       Text="Поиск по названию зала:"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="HallSearchTextBox"
+                     Width="220"
+                     TextChanged="OnHallSearchChanged"
+                     Watermark="Например: Зал 1" />
+          </StackPanel>
+
+          <StackPanel x:Name="HallButtonsPanel"
+                      DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="AddHallButton"
+                    Content="Добавить зал"
+                    Click="OnAddHallClick" />
+            <Button x:Name="SaveHallsButton"
+                    Content="Сохранить изменения"
+                    Click="OnSaveHallsClick" />
+            <Button x:Name="DeleteHallButton"
+                    Content="Удалить выбранный"
+                    Click="OnDeleteHallClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="HallsDataGrid"
+                    AutoGenerateColumns="False"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="60" />
+              <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Сеансы -->
+      <TabItem Header="Сеансы">
+        <DockPanel Margin="4">
+          <StackPanel DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock Classes="muted"
+                       Text="Поиск по фильму:"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="SessionMovieSearchTextBox"
+                     Width="220"
+                     TextChanged="OnSessionFilterTextChanged"
+                     Watermark="Название фильма" />
+
+            <TextBlock Classes="muted"
+                       Text="С даты"
+                       Margin="16,0,0,0"
+                       VerticalAlignment="Center" />
+            <DatePicker x:Name="SessionFromDatePicker"
+                        SelectedDateChanged="OnSessionDateFilterChanged" />
+
+            <TextBlock Classes="muted"
+                       Text="По дату"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center" />
+            <DatePicker x:Name="SessionToDatePicker"
+                        SelectedDateChanged="OnSessionDateFilterChanged" />
+          </StackPanel>
+
+          <StackPanel x:Name="SessionButtonsPanel"
+                      DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="BookTicketButton"
+                    Content="Забронировать билет"
+                    Click="OnBookTicketClick" />
+            <Button x:Name="AddSessionButton"
+                    Content="Добавить сеанс"
+                    Click="OnAddSessionClick" />
+            <Button x:Name="SaveSessionsButton"
+                    Content="Сохранить изменения"
+                    Click="OnSaveSessionsClick" />
+            <Button x:Name="DeleteSessionButton"
+                    Content="Удалить выбранный"
+                    Click="OnDeleteSessionClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="SessionsDataGrid"
+                    AutoGenerateColumns="False"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="60" />
+              <DataGridTextColumn Header="Фильм" Binding="{Binding Movie.Title}" Width="*" />
+              <DataGridTextColumn Header="Зал" Binding="{Binding Hall.Name}" Width="*" />
+              <DataGridTextColumn Header="Начало" Binding="{Binding StartTime}" Width="180" />
+              <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Места -->
+      <TabItem Header="Места">
+        <DockPanel Margin="4">
+          <StackPanel DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock Classes="muted"
+                       Text="Поиск по залу:"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="SeatHallSearchTextBox"
+                     Width="220"
+                     TextChanged="OnSeatFilterChanged"
+                     Watermark="Название зала" />
+
+            <TextBlock Classes="muted"
+                       Text="Номер места ≥"
+                       Margin="16,0,0,0"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="SeatMinNumberTextBox"
+                     Width="70"
+                     TextChanged="OnSeatFilterChanged" />
+          </StackPanel>
+
+          <StackPanel x:Name="SeatButtonsPanel"
+                      DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="AddSeatButton"
+                    Content="Добавить место"
+                    Click="OnAddSeatClick" />
+            <Button x:Name="SaveSeatsButton"
+                    Content="Сохранить изменения"
+                    Click="OnSaveSeatsClick" />
+            <Button x:Name="DeleteSeatButton"
+                    Content="Удалить выбранное"
+                    Click="OnDeleteSeatClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="SeatsDataGrid"
+                    AutoGenerateColumns="False"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="60" />
+              <DataGridTextColumn Header="Зал" Binding="{Binding Hall.Name}" Width="*" />
+              <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="100" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Бронирования (чтение + удаление) -->
+      <TabItem Header="Бронирования">
+        <DockPanel Margin="4">
+          <StackPanel x:Name="BookingFilterPanel"
+                      DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock x:Name="BookingUserSearchLabel"
+                       Classes="muted"
+                       Text="Поиск по пользователю:"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="BookingUserSearchTextBox"
+                     Width="200"
+                     TextChanged="OnBookingFilterChanged" />
+
+            <TextBlock Classes="muted"
+                       Text="По фильму:"
+                       Margin="16,0,0,0"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="BookingMovieSearchTextBox"
+                     Width="200"
+                     TextChanged="OnBookingFilterChanged" />
+          </StackPanel>
+
+          <StackPanel x:Name="BookingButtonsPanel"
+                      DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="CancelMyBookingButton"
+                    Content="Отменить мою бронь"
+                    Click="OnCancelMyBookingClick" />
+            <Button x:Name="DeleteBookingButton"
+                    Content="Удалить выбранное"
+                    Click="OnDeleteBookingClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="BookingsDataGrid"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60" />
+              <DataGridTextColumn Header="Пользователь" Binding="{Binding User.Username}" Width="*" />
+              <DataGridTextColumn Header="Фильм" Binding="{Binding Session.Movie.Title}" Width="*" />
+              <DataGridTextColumn Header="Зал" Binding="{Binding Session.Hall.Name}" Width="*" />
+              <DataGridTextColumn Header="Место" Binding="{Binding Seat.Number}" Width="80" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</UserControl>

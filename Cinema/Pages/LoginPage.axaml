@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Cinema.Pages.LoginPage">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="420" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Border Grid.Column="1"
+            VerticalAlignment="Center"
+            Padding="32"
+            Background="{DynamicResource App.CardBackgroundBrush}"
+            CornerRadius="12"
+            BorderBrush="{DynamicResource App.BorderBrush}"
+            BorderThickness="1">
+      <StackPanel Spacing="16">
+        <TextBlock Text="Кинотеатр"
+                   FontSize="26"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center" />
+        <TextBlock Classes="muted"
+                   Text="Войдите в систему, чтобы управлять сеансами и бронированиями."
+                   TextWrapping="Wrap"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,8" />
+
+        <StackPanel Spacing="6">
+          <TextBlock Text="Логин" />
+          <TextBox x:Name="UsernameTextBox"
+                   Watermark="Введите логин" />
+        </StackPanel>
+
+        <StackPanel Spacing="6">
+          <TextBlock Text="Пароль" />
+          <TextBox x:Name="PasswordTextBox"
+                   PasswordChar="●"
+                   Watermark="Введите пароль" />
+        </StackPanel>
+
+        <TextBlock x:Name="ErrorTextBlock"
+                   Foreground="Tomato"
+                   Margin="0,4,0,0" />
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="8"
+                    Margin="0,12,0,0">
+          <Button Classes="flat"
+                  Content="Регистрация"
+                  Click="OnRegisterClick" />
+          <Button Content="Войти"
+                  Click="OnLoginClick"
+                  IsDefault="True" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,0 +1,104 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:themes="using:Avalonia.Themes.Fluent"
+             x:Class="Cinema.App"
+             RequestedThemeVariant="Dark">
+
+  <Application.Resources>
+    <!-- Цвета -->
+    <Color x:Key="App.BackgroundColor">#1E1F26</Color>
+    <Color x:Key="App.CardBackgroundColor">#262734</Color>
+    <Color x:Key="App.PrimaryColor">#FF4E7CFF</Color>
+    <Color x:Key="App.PrimaryColorLight">#FF7BA2FF</Color>
+    <Color x:Key="App.BorderColor">#3A3B47</Color>
+    <Color x:Key="App.TextColor">#FFFFFFFF</Color>
+    <Color x:Key="App.TextMutedColor">#FFB0B3C0</Color>
+
+    <SolidColorBrush x:Key="App.BackgroundBrush" Color="{StaticResource App.BackgroundColor}" />
+    <SolidColorBrush x:Key="App.CardBackgroundBrush" Color="{StaticResource App.CardBackgroundColor}" />
+    <SolidColorBrush x:Key="App.PrimaryBrush" Color="{StaticResource App.PrimaryColor}" />
+    <SolidColorBrush x:Key="App.PrimaryLightBrush" Color="{StaticResource App.PrimaryColorLight}" />
+    <SolidColorBrush x:Key="App.BorderBrush" Color="{StaticResource App.BorderColor}" />
+    <SolidColorBrush x:Key="App.TextBrush" Color="{StaticResource App.TextColor}" />
+    <SolidColorBrush x:Key="App.TextMutedBrush" Color="{StaticResource App.TextMutedColor}" />
+  </Application.Resources>
+
+  <Application.Styles>
+    <themes:FluentTheme />
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
+    <!-- Общий стиль текста -->
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+    </Style>
+
+    <!-- Тонкий muted текст -->
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="{StaticResource App.TextMutedBrush}" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- TextBox -->
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="{StaticResource App.CardBackgroundBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource App.BorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Padding" Value="6,4" />
+      <Setter Property="Margin" Value="0,2,0,2" />
+    </Style>
+
+    <!-- TabControl -->
+    <Style Selector="TabControl">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- DataGrid -->
+    <Style Selector="DataGrid">
+      <Setter Property="Background" Value="{StaticResource App.CardBackgroundBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource App.BorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+      <Setter Property="GridLinesVisibility" Value="All" />
+    </Style>
+    <Style Selector="DataGrid DataGridRow">
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+    </Style>
+    <Style Selector="DataGrid DataGridCell">
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+    </Style>
+    <Style Selector="DataGrid DataGridColumnHeader">
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+      <Setter Property="Background" Value="{StaticResource App.BorderBrush}" />
+    </Style>
+    <!-- Текст внутри ячеек DataGrid -->
+    <Style Selector="DataGrid TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+    </Style>
+
+    <!-- Кнопки (после DataGrid-темы, чтобы перекрыть её стили) -->
+    <Style Selector="Button">
+      <Setter Property="Background" Value="{StaticResource App.PrimaryBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource App.TextBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource App.PrimaryBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Padding" Value="10,6" />
+      <Setter Property="Margin" Value="4,0,0,0" />
+    </Style>
+    <Style Selector="Button:pointerover">
+      <Setter Property="Background" Value="{StaticResource App.PrimaryLightBrush}" />
+    </Style>
+    <Style Selector="Button:disabled">
+      <Setter Property="Opacity" Value="0.5" />
+    </Style>
+    <Style Selector="Button.flat">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{StaticResource App.TextMutedBrush}" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="4,2" />
+    </Style>
+  </Application.Styles>
+</Application>

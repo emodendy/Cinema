@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+        x:Class="Cinema.MainWindow"
+        Width="1100"
+        Height="650"
+        Background="{DynamicResource App.BackgroundBrush}"
+        Title="Cinema">
+  <Border Margin="16"
+          Background="{DynamicResource App.CardBackgroundBrush}"
+          CornerRadius="10"
+          BorderBrush="{DynamicResource App.BorderBrush}"
+          BorderThickness="1">
+    <ContentControl x:Name="MainContent" />
+  </Border>
+</Window>
