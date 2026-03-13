@@ -664,43 +664,93 @@ public partial class MainPage : UserControl
         var dialog = new Window
         {
             Title = "Бронирование билета",
-            Width = 380,
-            Height = 240
+            Width = 460,
+            Height = 320
         };
 
-        var seatsCombo = new ComboBox { ItemsSource = availableSeats, SelectedIndex = 0 };
+        var seatsCombo = new ComboBox
+        {
+            ItemsSource = availableSeats,
+            SelectedIndex = 0,
+            Width = 220
+        };
         seatsCombo.ItemTemplate = new FuncDataTemplate<Seat>(
             (s, _) => new TextBlock { Text = $"Место {s.Number}" }, true);
 
-        var okButton = new Button { Content = "Забронировать", IsDefault = true, Width = 110 };
-        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 90 };
+        var selectedSeatText = new TextBlock { Classes = { "muted" } };
+        void UpdateSelectedSeatText()
+        {
+            var idx = seatsCombo.SelectedIndex;
+            if (idx >= 0 && idx < availableSeats.Count)
+                selectedSeatText.Text = $"Выбрано: место {availableSeats[idx].Number}";
+            else
+                selectedSeatText.Text = "Выбрано: -";
+        }
+        seatsCombo.SelectionChanged += (_, _) => UpdateSelectedSeatText();
+        UpdateSelectedSeatText();
+
+        var okButton = new Button { Content = "Забронировать", IsDefault = true, Width = 140 };
+        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 100, Classes = { "flat" } };
 
         okButton.Click += (_, _) => dialog.Close(true);
         cancelButton.Click += (_, _) => dialog.Close(false);
 
-        dialog.Content = new StackPanel
+        dialog.Content = new Border
         {
-            Margin = new Avalonia.Thickness(16),
-            Spacing = 8,
-            Children =
+            Padding = new Avalonia.Thickness(16),
+            CornerRadius = new Avalonia.CornerRadius(10),
+            BorderBrush = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BorderBrush"],
+            BorderThickness = new Avalonia.Thickness(1),
+            Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.CardBackgroundBrush"],
+            Child = new StackPanel
             {
-                new TextBlock { Text = $"Фильм: {session.Movie?.Title}" },
-                new TextBlock { Text = $"Зал: {session.Hall?.Name}" },
-                new TextBlock { Text = "Выберите место" },
-                seatsCombo,
-                new StackPanel
+                Spacing = 12,
+                Children =
                 {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { okButton, cancelButton }
+                    new TextBlock { Text = session.Movie?.Title ?? "-", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold },
+                    new TextBlock { Text = $"Зал: {session.Hall?.Name ?? "-"}", Classes = { "muted" } },
+                    new TextBlock { Text = $"Начало: {session.StartTime:g}", Classes = { "muted" } },
+
+                    new Border
+                    {
+                        Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BackgroundBrush"],
+                        CornerRadius = new Avalonia.CornerRadius(8),
+                        Padding = new Avalonia.Thickness(12),
+                        Child = new StackPanel
+                        {
+                            Spacing = 8,
+                            Children =
+                            {
+                                new TextBlock { Text = "Место", FontWeight = Avalonia.Media.FontWeight.SemiBold },
+                                new StackPanel
+                                {
+                                    Orientation = Avalonia.Layout.Orientation.Horizontal,
+                                    Spacing = 12,
+                                    Children = { seatsCombo, selectedSeatText }
+                                }
+                            }
+                        }
+                    },
+
+                    new StackPanel
+                    {
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelButton, okButton }
+                    }
                 }
             }
         };
 
         var result = await dialog.ShowDialog<bool?>(_mainWindow);
-        if (result == true && seatsCombo.SelectedItem is Seat seat)
+        if (result == true)
         {
+            var idx = seatsCombo.SelectedIndex;
+            if (idx < 0 || idx >= availableSeats.Count)
+                return;
+            var seat = availableSeats[idx];
+
             var booking = new Booking
             {
                 UserId = user.Id,
