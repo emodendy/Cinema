@@ -720,6 +720,11 @@ public partial class MainPage : UserControl
         _mainWindow.ShowLoginPage();
     }
 
+    private void OnProfileClick(object? sender, RoutedEventArgs e)
+    {
+        _mainWindow.ShowProfilePage();
+    }
+
     private async System.Threading.Tasks.Task ShowMessageAsync(string title, string message)
     {
         var okButton = new Button { Content = "ОК", HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right };

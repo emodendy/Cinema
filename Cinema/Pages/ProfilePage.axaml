@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Cinema.Pages.ProfilePage">
+  <DockPanel Margin="12">
+    <StackPanel DockPanel.Dock="Top"
+                Orientation="Horizontal"
+                Spacing="12"
+                Margin="0,0,0,12">
+      <TextBlock Text="Личный кабинет"
+                 FontSize="18"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center" />
+
+      <StackPanel Orientation="Horizontal"
+                  Margin="24,0,0,0"
+                  Spacing="8">
+        <TextBlock Classes="muted"
+                   Text="Пользователь:"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="UsernameTextBlock"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center" />
+        <TextBlock Classes="muted"
+                   Text="(роль:"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="RoleTextBlock"
+                   VerticalAlignment="Center" />
+        <TextBlock Classes="muted"
+                   Text=")"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+
+      <Button Content="Назад"
+              Classes="flat"
+              Margin="24,0,0,0"
+              Click="OnBackClick" />
+      <Button Content="Выход"
+              Click="OnLogoutClick" />
+    </StackPanel>
+
+    <TabControl>
+      <TabItem Header="Мои данные">
+        <StackPanel Margin="4" Spacing="10">
+          <TextBlock Classes="muted"
+                     Text="Здесь отображаются данные текущего аккаунта."
+                     TextWrapping="Wrap" />
+          <Border Background="{DynamicResource App.CardBackgroundBrush}"
+                  BorderBrush="{DynamicResource App.BorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="10"
+                  Padding="16">
+            <StackPanel Spacing="6">
+              <TextBlock Text="Логин" Classes="muted"/>
+              <TextBlock x:Name="UsernameValueTextBlock" FontSize="16" FontWeight="Bold"/>
+
+              <TextBlock Text="Роль" Classes="muted" Margin="0,10,0,0"/>
+              <TextBlock x:Name="RoleValueTextBlock" FontSize="16" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Смена пароля">
+        <StackPanel Margin="4" Spacing="10">
+          <TextBlock Classes="muted"
+                     Text="Введите текущий пароль и задайте новый."
+                     TextWrapping="Wrap" />
+          <Border Background="{DynamicResource App.CardBackgroundBrush}"
+                  BorderBrush="{DynamicResource App.BorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="10"
+                  Padding="16">
+            <StackPanel Spacing="8" Width="360">
+              <TextBlock Text="Текущий пароль" />
+              <TextBox x:Name="OldPasswordTextBox" PasswordChar="●" />
+
+              <TextBlock Text="Новый пароль" Margin="0,8,0,0"/>
+              <TextBox x:Name="NewPasswordTextBox" PasswordChar="●" />
+
+              <TextBlock Text="Повтор нового пароля" Margin="0,8,0,0"/>
+              <TextBox x:Name="RepeatPasswordTextBox" PasswordChar="●" />
+
+              <TextBlock x:Name="PasswordErrorTextBlock"
+                         Foreground="Tomato" />
+
+              <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right"
+                          Spacing="8"
+                          Margin="0,8,0,0">
+                <Button Content="Сохранить пароль"
+                        Click="OnChangePasswordClick" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Мои бронирования">
+        <DockPanel Margin="4">
+          <StackPanel DockPanel.Dock="Top"
+                      Orientation="Horizontal"
+                      Spacing="8"
+                      Margin="0,0,0,8">
+            <TextBlock Classes="muted" Text="Поиск по фильму:" VerticalAlignment="Center"/>
+            <TextBox x:Name="MyBookingsMovieSearchTextBox"
+                     Width="260"
+                     TextChanged="OnMyBookingsFilterChanged" />
+          </StackPanel>
+
+          <StackPanel DockPanel.Dock="Bottom"
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="8">
+            <Button x:Name="CancelBookingButton"
+                    Content="Отменить выбранную бронь"
+                    Click="OnCancelBookingClick" />
+          </StackPanel>
+
+          <DataGrid x:Name="MyBookingsDataGrid"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    Margin="0,0,0,8">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60" />
+              <DataGridTextColumn Header="Фильм" Binding="{Binding Session.Movie.Title}" Width="*" />
+              <DataGridTextColumn Header="Зал" Binding="{Binding Session.Hall.Name}" Width="*" />
+              <DataGridTextColumn Header="Начало" Binding="{Binding Session.StartTime}" Width="180" />
+              <DataGridTextColumn Header="Место" Binding="{Binding Seat.Number}" Width="90" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <TabItem Header="Админ: обзор" x:Name="AdminOverviewTab">
+        <StackPanel Margin="4" Spacing="10">
+          <TextBlock Classes="muted"
+                     Text="Краткая статистика по базе данных."
+                     TextWrapping="Wrap" />
+          <Border Background="{DynamicResource App.CardBackgroundBrush}"
+                  BorderBrush="{DynamicResource App.BorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="10"
+                  Padding="16">
+            <StackPanel Spacing="8">
+              <TextBlock Text="{Binding}" x:Name="StatsTextBlock" />
+              <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right"
+                          Spacing="8"
+                          Margin="0,8,0,0">
+                <Button Content="В управление"
+                        Click="OnBackClick" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</UserControl>
+

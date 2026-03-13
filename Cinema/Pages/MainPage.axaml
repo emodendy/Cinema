@@ -34,6 +34,10 @@
                    VerticalAlignment="Center" />
       </StackPanel>
 
+      <Button Content="Личный кабинет"
+              Classes="flat"
+              HorizontalAlignment="Right"
+              Click="OnProfileClick" />
       <Button Content="Выход"
               HorizontalAlignment="Right"
               Click="OnLogoutClick" />

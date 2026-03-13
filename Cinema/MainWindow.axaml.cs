@@ -24,4 +24,9 @@ public partial class MainWindow : Window
     {
         MainContent.Content = new Pages.MainPage(this);
     }
+
+    public void ShowProfilePage()
+    {
+        MainContent.Content = new Pages.ProfilePage(this);
+    }
 }
