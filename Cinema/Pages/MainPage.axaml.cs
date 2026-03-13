@@ -191,22 +191,44 @@ public partial class MainPage : UserControl
         okButton.Click += (_, _) => dialog?.Close(true);
         cancelButton.Click += (_, _) => dialog?.Close(false);
 
-        return new StackPanel
+        return new Border
         {
-            Margin = new Avalonia.Thickness(16),
-            Spacing = 8,
-            Children =
+            Padding = new Avalonia.Thickness(16),
+            CornerRadius = new Avalonia.CornerRadius(10),
+            BorderBrush = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BorderBrush"],
+            BorderThickness = new Avalonia.Thickness(1),
+            Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.CardBackgroundBrush"],
+            Child = new StackPanel
             {
-                new TextBlock { Text = "Название" },
-                titleBox,
-                new TextBlock { Text = "Длительность (мин)" },
-                durationBox,
-                new StackPanel
+                Spacing = 10,
+                Children =
                 {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { okButton, cancelButton }
+                    new TextBlock { Text = "Новый фильм", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Название" },
+                            titleBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Длительность (мин)" },
+                            durationBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelButton, okButton }
+                    }
                 }
             }
         };
@@ -257,8 +279,8 @@ public partial class MainPage : UserControl
         var dialog = new Window
         {
             Title = "Новый зал",
-            Width = 320,
-            Height = 180
+            Width = 380,
+            Height = 220
         };
 
         var nameBox = new TextBox();
@@ -268,20 +290,35 @@ public partial class MainPage : UserControl
         okButton.Click += (_, _) => dialog.Close(true);
         cancelButton.Click += (_, _) => dialog.Close(false);
 
-        dialog.Content = new StackPanel
+        dialog.Content = new Border
         {
-            Margin = new Avalonia.Thickness(16),
-            Spacing = 8,
-            Children =
+            Padding = new Avalonia.Thickness(16),
+            CornerRadius = new Avalonia.CornerRadius(10),
+            BorderBrush = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BorderBrush"],
+            BorderThickness = new Avalonia.Thickness(1),
+            Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.CardBackgroundBrush"],
+            Child = new StackPanel
             {
-                new TextBlock { Text = "Название зала" },
-                nameBox,
-                new StackPanel
+                Spacing = 10,
+                Children =
                 {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { okButton, cancelButton }
+                    new TextBlock { Text = "Новый зал", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Название зала" },
+                            nameBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelButton, okButton }
+                    }
                 }
             }
         };
@@ -359,8 +396,8 @@ public partial class MainPage : UserControl
         var dialog = new Window
         {
             Title = "Новый сеанс",
-            Width = 420,
-            Height = 320
+            Width = 480,
+            Height = 360
         };
 
         var movies = App.dBcontext.Movies.OrderBy(m => m.Title).ToList();
@@ -375,34 +412,77 @@ public partial class MainPage : UserControl
         var timeBox = new TextBox { Watermark = "ЧЧ:ММ, например 19:30" };
         var priceBox = new TextBox { Watermark = "Цена, например 350" };
 
-        var okButton = new Button { Content = "ОК", IsDefault = true, Width = 90 };
-        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 90 };
+        var okButton = new Button { Content = "Создать сеанс", IsDefault = true, Width = 150 };
+        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 100, Classes = { "flat" } };
 
         okButton.Click += (_, _) => dialog.Close(true);
         cancelButton.Click += (_, _) => dialog.Close(false);
 
-        dialog.Content = new StackPanel
+        dialog.Content = new Border
         {
-            Margin = new Avalonia.Thickness(16),
-            Spacing = 8,
-            Children =
+            Padding = new Avalonia.Thickness(16),
+            CornerRadius = new Avalonia.CornerRadius(10),
+            BorderBrush = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BorderBrush"],
+            BorderThickness = new Avalonia.Thickness(1),
+            Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.CardBackgroundBrush"],
+            Child = new StackPanel
             {
-                new TextBlock { Text = "Фильм" },
-                movieCombo,
-                new TextBlock { Text = "Зал" },
-                hallCombo,
-                new TextBlock { Text = "Дата" },
-                datePicker,
-                new TextBlock { Text = "Время (локальное)" },
-                timeBox,
-                new TextBlock { Text = "Цена" },
-                priceBox,
-                new StackPanel
+                Spacing = 10,
+                Children =
                 {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { okButton, cancelButton }
+                    new TextBlock { Text = "Новый сеанс", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Фильм" },
+                            movieCombo
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Зал" },
+                            hallCombo
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Дата" },
+                            datePicker
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Время (локальное)" },
+                            timeBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Цена" },
+                            priceBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelButton, okButton }
+                    }
                 }
             }
         };
@@ -489,8 +569,8 @@ public partial class MainPage : UserControl
         var dialog = new Window
         {
             Title = "Новое место",
-            Width = 360,
-            Height = 220
+            Width = 400,
+            Height = 260
         };
 
         var halls = App.dBcontext.Halls.OrderBy(h => h.Name).ToList();
@@ -498,28 +578,50 @@ public partial class MainPage : UserControl
         hallCombo.ItemTemplate = new FuncDataTemplate<Hall>((h, _) => new TextBlock { Text = h.Name }, true);
         var numberBox = new TextBox { Watermark = "Номер места" };
 
-        var okButton = new Button { Content = "ОК", IsDefault = true, Width = 90 };
-        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 90 };
+        var okButton = new Button { Content = "Добавить место", IsDefault = true, Width = 150 };
+        var cancelButton = new Button { Content = "Отмена", IsCancel = true, Width = 100, Classes = { "flat" } };
 
         okButton.Click += (_, _) => dialog.Close(true);
         cancelButton.Click += (_, _) => dialog.Close(false);
 
-        dialog.Content = new StackPanel
+        dialog.Content = new Border
         {
-            Margin = new Avalonia.Thickness(16),
-            Spacing = 8,
-            Children =
+            Padding = new Avalonia.Thickness(16),
+            CornerRadius = new Avalonia.CornerRadius(10),
+            BorderBrush = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.BorderBrush"],
+            BorderThickness = new Avalonia.Thickness(1),
+            Background = (Avalonia.Media.IBrush?)Avalonia.Application.Current?.Resources["App.CardBackgroundBrush"],
+            Child = new StackPanel
             {
-                new TextBlock { Text = "Зал" },
-                hallCombo,
-                new TextBlock { Text = "Номер места" },
-                numberBox,
-                new StackPanel
+                Spacing = 10,
+                Children =
                 {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { okButton, cancelButton }
+                    new TextBlock { Text = "Новое место", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Зал" },
+                            hallCombo
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Spacing = 6,
+                        Children =
+                        {
+                            new TextBlock { Text = "Номер места" },
+                            numberBox
+                        }
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelButton, okButton }
+                    }
                 }
             }
         };
